@@ -11,11 +11,10 @@ type Props = {
 export default async function SingleListingPage({ params }: Props) {
   const { id } = await params;
   
-  let listing;
-  try {
-    listing = await listingService.getListingById(id);
-  } catch (error) {
-    notFound(); // Redirects to a 404 page if the ID doesn't exist
+  const listing = await listingService.getListingById(id).catch(() => null);
+  
+  if (!listing) {
+    notFound();
   }
 
   const coverImage = listing.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
