@@ -30,6 +30,7 @@ export default function EditListingPage() {
     contactPhone: '',
     contactWhatsApp: '',
     status: 'available' as 'available' | 'rented',
+    featured: false,
   });
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -59,6 +60,7 @@ export default function EditListingPage() {
           contactPhone: listing.contactPhone,
           contactWhatsApp: listing.contactWhatsApp,
           status: listing.status,
+          featured: listing.featured ?? false,
         });
         setImages(listing.images || []);
       } catch (err) {
@@ -73,12 +75,15 @@ export default function EditListingPage() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target as HTMLInputElement;
+    const checked = (e.target as HTMLInputElement).checked;
     setForm((prev) => ({
       ...prev,
-      [name]: name === 'price' || name === 'bedrooms' || name === 'bathrooms'
-        ? Number(value)
-        : value,
+      [name]: type === 'checkbox'
+        ? checked
+        : name === 'price' || name === 'bedrooms' || name === 'bathrooms'
+          ? Number(value)
+          : value,
     }));
   };
 
@@ -272,9 +277,30 @@ export default function EditListingPage() {
                 <option value="rented">Rented</option>
               </select>
               <p className="text-xs text-slate-400 dark:text-slate-500">
-                Mark as "Rented" to hide this listing from public search results.
+                Mark as &ldquo;Rented&rdquo; to hide this listing from public search results.
               </p>
             </div>
+
+            {/* Featured toggle */}
+            <label className="flex items-start gap-4 cursor-pointer p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <div className="relative mt-0.5 flex-shrink-0">
+                <input
+                  type="checkbox"
+                  name="featured"
+                  checked={form.featured}
+                  onChange={handleChange}
+                  className="sr-only peer"
+                />
+                <div className="w-10 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-blue-600 transition-colors" />
+                <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">Featured on Homepage</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  When enabled, this listing appears in the &ldquo;Featured Properties&rdquo; section on the homepage.
+                </p>
+              </div>
+            </label>
           </section>
 
           {/* Images */}

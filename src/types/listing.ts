@@ -20,6 +20,7 @@ export interface Listing {
   images: string[];            // Cloudinary URLs
   videoUrl?: string;           // Cloudinary video URL (optional)
   status: ListingStatus;
+  featured: boolean;           // shown in the homepage Featured section
   contactPhone: string;
   contactWhatsApp: string;
   createdAt: string;
@@ -36,6 +37,7 @@ export interface CreateListingInput {
   bathrooms: number;
   images: string[];
   videoUrl?: string;
+  featured?: boolean;
   contactPhone: string;
   contactWhatsApp: string;
 }

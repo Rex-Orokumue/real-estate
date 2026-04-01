@@ -5,8 +5,13 @@ import ListingCard from '@/components/listings/ListingCard';
 import { listingService } from '@/services/listingService';
 
 export default async function HomePage() {
-  const allListings = await listingService.getAvailableListings();
-  const featuredListings = allListings.slice(0, 3);
+  const featuredListings = await listingService.getFeaturedListings();
+  // Fallback: if no listings have been marked featured, show 3 most-recent available ones
+  const displayListings =
+    featuredListings.length > 0
+      ? featuredListings
+      : (await listingService.getAvailableListings()).slice(0, 3);
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -81,8 +86,8 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredListings.length > 0 ? (
-              featuredListings.map((listing) => (
+            {displayListings.length > 0 ? (
+              displayListings.map((listing) => (
                 <ListingCard key={listing.id} listing={listing} />
               ))
             ) : (

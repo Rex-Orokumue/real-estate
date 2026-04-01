@@ -30,6 +30,18 @@ export const listingService = {
     return data as Listing[];
   },
 
+  async getFeaturedListings(): Promise<Listing[]> {
+    const { data, error } = await supabase
+      .from('listings')
+      .select('*')
+      .eq('featured', true)
+      .eq('status', 'available')
+      .order('"createdAt"', { ascending: false });
+
+    if (error) throw new Error(error.message);
+    return data as Listing[];
+  },
+
   async getListingById(id: string): Promise<Listing> {
     const { data, error } = await supabase
       .from('listings')
