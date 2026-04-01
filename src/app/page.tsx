@@ -48,9 +48,9 @@ export default async function HomePage() {
             <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-2">
               <Wallet size={24} />
             </div>
-            <h3 className="font-heading font-bold text-xl text-slate-900 dark:text-white">Transparent Pricing</h3>
+            <h3 className="font-heading font-bold text-xl text-slate-900 dark:text-white">Clear, Upfront Fees</h3>
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-              No hidden agency fees. What you see is what you pay, dealing directly with verified providers.
+              Our agency fees are stated clearly before you commit to anything — no surprises, no last-minute charges.
             </p>
           </div>
           <div className="flex flex-col items-center md:items-start gap-4">
